@@ -6,12 +6,15 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.kentvu.quanlyquy.data.ThanhVien
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
+    lateinit var adapter: ThanhVienAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,21 +33,40 @@ class MainActivity : AppCompatActivity() {
 //                .addOnSuccessListener {documentReference ->  Log.d(TAG, "DocumentSnapshot added with ID: "
 //                        + documentReference.getId()) }
 //                .addOnFailureListener {e -> Log.w(TAG, "Error adding document", e)}
-        db.collection("thanh_vien").get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val result = task.result
-                        if (result != null) {
-                            result.forEach { document -> Log.d(TAG, document.id + " => " + document.data) }
-                            thanh_vien_grid.adapter = ThanhVienAdapter(result)
-                        }
-                    }
-                    else Log.w(TAG, "Error getting documents.", task.exception)
-                }
+        val query = db.collection("thanh_vien")
+//        query
+//                .addOnSuccessListener { documentSnapshot ->
+//                    val thanhVien = documentSnapshot.toObjects(ThanhVien::class.java)
+//                    Log.d(TAG, thanhVien.toString())
+//                }
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        val result = task.result
+//                        if (result != null) {
+//                            result.forEach { document -> Log.d(TAG, document.id + " => " + document.data) }
+//                            thanh_vien_grid.adapter = ThanhVienAdapter(result)
+//                        }
+//                    }
+//                    else Log.w(TAG, "Error getting documents.", task.exception)
+//                }
+        val options = FirestoreRecyclerOptions.Builder<ThanhVien>().setQuery(query, ThanhVien::class.java)
+                .build()
+        adapter = ThanhVienAdapter(options)
+        thanh_vien_grid.adapter = adapter
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

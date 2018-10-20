@@ -2,8 +2,13 @@ package com.kentvu.quanlyquy.data
 
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
-class ThanhVien(document: QueryDocumentSnapshot) {
+class ThanhVien() {
     init {
-        document.data.get()
+    }
+
+    var ten = ""
+    var ngaySinh = ""
+    override fun toString(): String {
+        return super.toString()
     }
 }

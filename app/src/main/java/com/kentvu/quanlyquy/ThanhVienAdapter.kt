@@ -1,31 +1,32 @@
 package com.kentvu.quanlyquy
 
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.firestore.QuerySnapshot
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.kentvu.quanlyquy.data.ThanhVien
 import kotlinx.android.synthetic.main.thanh_vien.view.*
 
-class ThanhVienAdapter(val result: QuerySnapshot) : RecyclerView.Adapter<ThanhVienAdapter.ViewHolder>() {
-    init {
-        result.map { document -> ThanhVien(document) }
-    }
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class ThanhVienAdapter(options: FirestoreRecyclerOptions<ThanhVien>) : FirestoreRecyclerAdapter<ThanhVien, ThanhVienAdapter.ViewHolder>(options) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, thanhVien: ThanhVien) {
+        holder.bind(thanhVien)
     }
 
-    override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.thanh_vien, parent, false)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder.bind()
-    }
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(thanhVien: ThanhVien) {
+            view.ten.text = thanhVien.ten
+            view.ngay_sinh.text = thanhVien.ngaySinh
+        }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         init {
-            view.ten.text
+//            view.ten.text
         }
     }
 }
