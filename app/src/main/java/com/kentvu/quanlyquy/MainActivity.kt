@@ -3,10 +3,13 @@ package com.kentvu.quanlyquy
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_main.*
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +18,29 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        // Access a Cloud Firestore instance from your Activity
+        val db = FirebaseFirestore.getInstance()
+        // Create a new user with a first, middle, and last name
+//        val user = mapOf<String, Any>(
+//                "ten" to "Vu Tran Kien",
+//                "ngay_sinh" to "1991/01/01"
+//        )
+//        db.collection("thanh_vien")
+//                .add(user)
+//                .addOnSuccessListener {documentReference ->  Log.d(TAG, "DocumentSnapshot added with ID: "
+//                        + documentReference.getId()) }
+//                .addOnFailureListener {e -> Log.w(TAG, "Error adding document", e)}
+        db.collection("thanh_vien").get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val result = task.result
+                        if (result != null) {
+                            result.forEach { document -> Log.d(TAG, document.id + " => " + document.data) }
+                            thanh_vien_grid.adapter = ThanhVienAdapter(result)
+                        }
+                    }
+                    else Log.w(TAG, "Error getting documents.", task.exception)
+                }
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -36,4 +62,9 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    companion object {
+        private val TAG = "MainActivity"
+    }
 }
+
