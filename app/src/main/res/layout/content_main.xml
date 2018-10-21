@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.kentvu.quanlyquy.MainActivity"
-    tools:showIn="@layout/activity_main">
-
-     <!--<GridView xmlns:android="http://schemas.android.com/apk/res/android"-->
-         <!--android:id="@+id/thanh_vien_grid"-->
-         <!--android:layout_width="match_parent"-->
-         <!--android:layout_height="match_parent"-->
-         <!--android:columnWidth="90dp"-->
-         <!--android:numColumns="auto_fit"-->
-         <!--android:verticalSpacing="10dp"-->
-         <!--android:horizontalSpacing="10dp"-->
-         <!--android:stretchMode="columnWidth"-->
-         <!--android:gravity="center"-->
-         <!--/>-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/thanh_vien_grid"
-        android:scrollbars="vertical"
-        app:layoutManager="android.support.v7.widget.GridLayoutManager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</android.support.constraint.ConstraintLayout>
+    tools:context="com.kentvu.quanlyquy.MainActivity" />
