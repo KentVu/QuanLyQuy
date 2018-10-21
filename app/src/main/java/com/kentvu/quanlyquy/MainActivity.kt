@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        supportFragmentManager.beginTransaction().add(R.id.main_container, ThanhVienFrag())
-//        supportFragmentManager.beginTransaction().add(R.id.main_container, PagerFragment())
+//        supportFragmentManager.beginTransaction().add(R.id.main_container, ThanhVienFrag())
+        supportFragmentManager.beginTransaction().add(R.id.main_container, PagerFragment())
                 /*.addToBackStack(null)*/.commit()
         fab.setOnClickListener { view ->
             supportFragmentManager.beginTransaction().replace(R.id.main_container, AddThanhVienFragment())
@@ -85,8 +85,9 @@ class PagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated")
-        view.pager.adapter = FragmentsPagerAdapter(activity!!.supportFragmentManager)
-        view.pager?.adapter?.notifyDataSetChanged()
+        // https://stackoverflow.com/a/19073627/1562087
+        view.pager.adapter = FragmentsPagerAdapter(childFragmentManager)
+//        view.pager?.adapter?.notifyDataSetChanged()
     }
 
     override fun onResume() {

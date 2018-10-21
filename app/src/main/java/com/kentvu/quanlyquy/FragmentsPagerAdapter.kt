@@ -15,7 +15,8 @@ class FragmentsPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePag
     override fun getItemPosition(`object`: Any): Int {
 //        Log.d(TAG, "getItemPosition")
         // https://stackoverflow.com/a/7287121/1562087
-        return PagerAdapter.POSITION_NONE
+        return super.getItemPosition(`object`)
+//        return PagerAdapter.POSITION_NONE
     }
 
     override fun getCount(): Int {
