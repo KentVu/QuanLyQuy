@@ -21,8 +21,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        supportFragmentManager.beginTransaction().add(R.id.main_container, PagerFragment())
-                .addToBackStack(null).commit()
+        supportFragmentManager.beginTransaction().add(R.id.main_container, ThanhVienFrag())
+//        supportFragmentManager.beginTransaction().add(R.id.main_container, PagerFragment())
+                /*.addToBackStack(null)*/.commit()
         fab.setOnClickListener { view ->
             supportFragmentManager.beginTransaction().replace(R.id.main_container, AddThanhVienFragment())
                     .addToBackStack(null).commit()
@@ -76,20 +77,28 @@ class AddThanhVienFragment : Fragment() {
 
 class PagerFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d(TAG, "onCreateView")
         val view = inflater.inflate(R.layout.pager_fragment, container, false)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated")
         view.pager.adapter = FragmentsPagerAdapter(activity!!.supportFragmentManager)
+        view.pager?.adapter?.notifyDataSetChanged()
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume")
-        view?.pager?.adapter?.notifyDataSetChanged()
-        view?.pager.
+        val pager = view?.pager
+        if (pager != null) {
+            Log.d(TAG, "onResume:currentItem = 1")
+            pager.currentItem = 0
+//            pager.adapter?.notifyDataSetChanged()
+
+//            pager.adapter.
+        }
     }
 
     companion object {
