@@ -3,22 +3,40 @@ package com.kentvu.quanlyquy
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
-class MainActivity : AppCompatActivity() {
+private const val TAG = "MainActivity"
 
+class MainActivity : AppCompatActivity(), TextView.OnEditorActionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        event.setOnEditorActionListener(this)
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+    }
+
+    override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+        // lookup event
+        val evtName = event.text.toString()
+        Log.d(TAG, "onEditorAction $evtName")
+        if (App[this].db.events.contains(evtName)) {
+            Log.d(TAG, "onEditorAction has event")
+        } else {
+            Log.d(TAG, "onEditorAction no event")
+        }
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
