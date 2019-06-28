@@ -3,7 +3,6 @@ package com.kentvu.quanlyquy
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -11,10 +10,19 @@ import android.widget.TextView
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.launch
 
 private const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity(), TextView.OnEditorActionListener {
+class MainActivity : AppCompatActivity(), TextView.OnEditorActionListener, Gui {
+    private val eventChannel = Channel<Event>()
+    override val eventSource: ReceiveChannel<Event>
+        get() = eventChannel
+    private lateinit var mainFlow: MainFlow
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,17 +33,14 @@ class MainActivity : AppCompatActivity(), TextView.OnEditorActionListener {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+        mainFlow = (applicationContext as App).mainFlow
+        mainFlow.onCreate(this as Gui)
     }
 
     override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
         // lookup event
         val evtName = event.text.toString()
-        Log.d(TAG, "onEditorAction $evtName")
-        if (App[this].db.events.contains(evtName)) {
-            Log.d(TAG, "onEditorAction has event")
-        } else {
-            Log.d(TAG, "onEditorAction no event")
-        }
+        GlobalScope.launch { eventChannel.send(Event(EventType.EventTyped, evtName)) }
         return true
     }
 

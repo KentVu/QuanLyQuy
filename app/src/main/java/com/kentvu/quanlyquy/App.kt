@@ -2,11 +2,11 @@ package com.kentvu.quanlyquy
 
 import android.app.Application
 import android.content.Context
-import kotlin.reflect.KProperty
 
 class App: Application() {
     fun testSupport(function: TestSupport.() -> Unit) = TestSupport().apply(function)
     var db: Db = DefaultDb()
+    val mainFlow = MainFlow()
 
     inner class TestSupport {
         var db: Db? = null
