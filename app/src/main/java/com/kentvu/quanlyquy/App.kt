@@ -2,6 +2,9 @@ package com.kentvu.quanlyquy
 
 import android.app.Application
 import android.content.Context
+import com.kentvu.quanlyquy.business.Db
+import com.kentvu.quanlyquy.business.MainFlow
+import com.kentvu.quanlyquy.db.DefaultDb
 
 class App: Application() {
     fun testSupport(function: TestSupport.() -> Unit) = TestSupport().apply(function)
@@ -20,12 +23,3 @@ class App: Application() {
     }
 }
 
-class DefaultDb : Db {
-    override var events: List<String> = listOf()
-
-}
-
-interface Db {
-    var events: List<String>
-    //fun exists(name: String)
-}

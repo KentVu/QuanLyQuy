@@ -1,15 +1,13 @@
 package com.kentvu.quanlyquy
 
 import androidx.test.InstrumentationRegistry
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.runner.AndroidJUnit4
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.hasItem
+import com.kentvu.quanlyquy.business.Db
+import com.kentvu.quanlyquy.db.MockDb
 import org.hamcrest.Matchers.isOneOf
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -55,11 +53,6 @@ class FundManagementTest {
         function(typingRobot)
         return typingRobot
     }
-}
-
-class MockDb : Db {
-    override var events: List<String> = listOf()
-
 }
 
 class TypingRobot {

@@ -1,4 +1,4 @@
-package com.kentvu.quanlyquy
+package com.kentvu.quanlyquy.business
 
 import kotlinx.coroutines.channels.ReceiveChannel
 

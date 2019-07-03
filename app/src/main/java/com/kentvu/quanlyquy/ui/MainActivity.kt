@@ -1,4 +1,4 @@
-package com.kentvu.quanlyquy
+package com.kentvu.quanlyquy.ui
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -7,6 +7,12 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import com.kentvu.quanlyquy.App
+import com.kentvu.quanlyquy.R
+import com.kentvu.quanlyquy.business.MainFlow
+import com.kentvu.quanlyquy.business.Event
+import com.kentvu.quanlyquy.business.EventType
+import com.kentvu.quanlyquy.business.Gui
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
