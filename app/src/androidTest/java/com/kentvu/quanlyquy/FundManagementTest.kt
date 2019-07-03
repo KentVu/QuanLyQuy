@@ -1,7 +1,16 @@
 package com.kentvu.quanlyquy
 
 import androidx.test.InstrumentationRegistry
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.runner.AndroidJUnit4
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.hasItem
+import org.hamcrest.Matchers.isOneOf
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -36,16 +45,37 @@ class FundManagementTest {
     }
 
     private fun mockDb(function: Db.() -> Unit): Db? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val mockDb = MockDb()
+        function(mockDb)
+        return mockDb
     }
 
     private fun typingRobot(function: TypingRobot.() -> Unit): TypingRobot {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val typingRobot = TypingRobot()
+        function(typingRobot)
+        return typingRobot
     }
+}
+
+class MockDb : Db {
+    override var events: List<String> = listOf()
+
 }
 
 class TypingRobot {
     internal fun type(s: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        typeText(s)
     }
+
+    infix fun check(checkBlock: CheckingRobot.() -> Unit) {
+        checkBlock(CheckingRobot())
+    }
+}
+
+class CheckingRobot {
+    fun autoCompleteListDisplayed(list: List<String>) {
+        //Espresso.onView(withId(R.id.event))
+        onData(isOneOf(list.toTypedArray())).check(matches(isDisplayed()))
+    }
+
 }
